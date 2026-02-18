@@ -9,6 +9,8 @@ struct AlarmDetailView: View {
     let orchestrator: AlarmOrchestrator
 
     @State private var isRegenerating = false
+    @State private var selectedVoice = ""
+    @State private var promptText = ""
 
     var body: some View {
         List {
@@ -17,6 +19,41 @@ struct AlarmDetailView: View {
                     Text(alarm.timeString)
                         .font(.system(.largeTitle, design: .rounded, weight: .medium))
                     Spacer()
+                }
+            }
+
+            Section("Voice") {
+                let defaultVoice = UserDefaults.standard.string(forKey: "selectedVoice") ?? "coral"
+                Picker("Voice", selection: $selectedVoice) {
+                    ForEach(SettingsViewModel.availableVoices, id: \.self) { voice in
+                        if voice == defaultVoice {
+                            Text("\(voice.capitalized) (default)").tag(voice)
+                        } else {
+                            Text(voice.capitalized).tag(voice)
+                        }
+                    }
+                }
+                .pickerStyle(.menu)
+                .disabled(isRegenerating)
+                .onChange(of: selectedVoice) { oldValue, newValue in
+                    guard oldValue != newValue, !oldValue.isEmpty else { return }
+                    alarm.voiceId = newValue
+                    if alarm.state == .armed {
+                        regenerate()
+                    }
+                }
+            }
+
+            Section("Prompt") {
+                TextField("E.g. \(WakeTextContext.defaultUserPrompt)", text: $promptText, axis: .vertical)
+                    .lineLimit(2...4)
+                    .disabled(isRegenerating)
+
+                if promptHasChanged {
+                    Button("Apply & Regenerate") {
+                        applyPromptChange()
+                    }
+                    .disabled(isRegenerating)
                 }
             }
 
@@ -76,6 +113,22 @@ struct AlarmDetailView: View {
         }
         .navigationTitle("Alarm Details")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            selectedVoice = alarm.voiceId
+            promptText = alarm.prompt ?? ""
+        }
+    }
+
+    private var promptHasChanged: Bool {
+        let current = alarm.prompt ?? ""
+        let edited = promptText.trimmingCharacters(in: .whitespacesAndNewlines)
+        return current != edited && alarm.state == .armed
+    }
+
+    private func applyPromptChange() {
+        let trimmed = promptText.trimmingCharacters(in: .whitespacesAndNewlines)
+        alarm.prompt = trimmed.isEmpty ? nil : trimmed
+        regenerate()
     }
 
     private func regenerate() {

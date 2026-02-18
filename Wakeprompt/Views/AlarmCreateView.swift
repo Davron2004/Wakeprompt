@@ -8,6 +8,8 @@ struct AlarmCreateView: View {
     let orchestrator: AlarmOrchestrator
 
     @State private var selectedTime = Date()
+    @State private var selectedVoice = UserDefaults.standard.string(forKey: "selectedVoice") ?? "coral"
+    @State private var promptText = ""
     @State private var isArming = false
     @State private var armingState: AlarmState = .draft
     @State private var errorMessage: String?
@@ -15,49 +17,72 @@ struct AlarmCreateView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                DatePicker(
-                    "Alarm Time",
-                    selection: $selectedTime,
-                    displayedComponents: .hourAndMinute
-                )
-                .datePickerStyle(.wheel)
-                .labelsHidden()
+            Form {
+                Section {
+                    DatePicker(
+                        "Alarm Time",
+                        selection: $selectedTime,
+                        displayedComponents: .hourAndMinute
+                    )
+                    .datePickerStyle(.wheel)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .listRowInsets(EdgeInsets())
+                }
 
-                GenerationStatusBanner(state: armingState, errorMessage: errorMessage)
-
-                Spacer()
-
-                Button(action: createAlarm) {
-                    Group {
-                        if isArming {
-                            HStack(spacing: 8) {
-                                ProgressView()
-                                    .tint(.white)
-                                Text(armingState.displayLabel)
+                Section("Voice") {
+                    let defaultVoice = UserDefaults.standard.string(forKey: "selectedVoice") ?? "coral"
+                    Picker("Voice", selection: $selectedVoice) {
+                        ForEach(SettingsViewModel.availableVoices, id: \.self) { voice in
+                            if voice == defaultVoice {
+                                Text("\(voice.capitalized) (default)").tag(voice)
+                            } else {
+                                Text(voice.capitalized).tag(voice)
                             }
-                        } else {
-                            Text("Set Alarm")
                         }
                     }
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(isArming ? Color.gray : Color.blue)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .pickerStyle(.menu)
                 }
-                .disabled(isArming)
-                .padding(.horizontal)
+
+                Section("Prompt") {
+                    TextField("E.g. \(WakeTextContext.defaultUserPrompt)", text: $promptText, axis: .vertical)
+                        .lineLimit(2...4)
+                }
+
+                Section {
+                    GenerationStatusBanner(state: armingState, errorMessage: errorMessage)
+
+                    Button(action: createAlarm) {
+                        Group {
+                            if isArming {
+                                HStack(spacing: 8) {
+                                    ProgressView()
+                                        .tint(.white)
+                                    Text(armingState.displayLabel)
+                                }
+                            } else {
+                                Text("Set Alarm")
+                            }
+                        }
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(isArming ? Color.gray : Color.blue)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+                    .disabled(isArming)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                }
             }
-            .padding()
             .navigationTitle("New Alarm")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         if let alarm = armedAlarm, alarm.state != .armed {
-                            orchestrator.cancel(alarm, context: modelContext)
+                            orchestrator.delete(alarm, context: modelContext)
                         }
                         dismiss()
                     }
@@ -72,8 +97,13 @@ struct AlarmCreateView: View {
         let components = Calendar.current.dateComponents([.hour, .minute], from: selectedTime)
         guard let hour = components.hour, let minute = components.minute else { return }
 
-        let voice = UserDefaults.standard.string(forKey: "selectedVoice") ?? "coral"
-        let alarm = Alarm(hour: hour, minute: minute, voiceId: voice)
+        let trimmedPrompt = promptText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let alarm = Alarm(
+            hour: hour,
+            minute: minute,
+            voiceId: selectedVoice,
+            prompt: trimmedPrompt.isEmpty ? nil : trimmedPrompt
+        )
 
         modelContext.insert(alarm)
         armedAlarm = alarm
@@ -95,6 +125,8 @@ struct AlarmCreateView: View {
                 dismiss()
             } else if alarm.state == .errorBlocked {
                 errorMessage = alarm.failureReason ?? "Failed to schedule alarm"
+                orchestrator.delete(alarm, context: modelContext)
+                armedAlarm = nil
             }
         }
     }

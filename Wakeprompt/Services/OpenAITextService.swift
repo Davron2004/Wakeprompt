@@ -14,6 +14,8 @@ struct OpenAITextService: WakeTextProvider {
         formatter.dateFormat = "EEEE, MMMM d, yyyy 'at' h:mm a"
         let timeString = formatter.string(from: alarmTime)
 
+        print(timeString)
+        
         let systemPrompt = """
             Generate a wake-up message for \(timeString). \
             Be encouraging and energizing. 3-4 sentences, \
@@ -21,11 +23,19 @@ struct OpenAITextService: WakeTextProvider {
             Do not include any stage directions or annotations.
             """
 
+        let userMessage: String
+        if let prompt = context.userPrompt,
+           !prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            userMessage = prompt
+        } else {
+            userMessage = WakeTextContext.defaultUserPrompt
+        }
+
         let body: [String: Any] = [
             "model": "gpt-4o-mini",
             "messages": [
                 ["role": "system", "content": systemPrompt],
-                ["role": "user", "content": "Generate my wake-up message."]
+                ["role": "user", "content": userMessage]
             ],
             "max_tokens": 200,
             "temperature": 0.9

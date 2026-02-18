@@ -74,7 +74,7 @@ final class AlarmOrchestrator {
         do {
             wakeText = try await textProvider.generateWakeText(
                 alarmTime: fireDate,
-                context: WakeTextContext(voiceId: alarm.voiceId)
+                context: WakeTextContext(voiceId: alarm.voiceId, userPrompt: alarm.prompt)
             )
             alarm.generatedText = wakeText
             telemetry.log(.textGenCompleted, alarmId: alarmId)

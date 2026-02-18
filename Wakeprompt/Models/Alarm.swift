@@ -15,6 +15,7 @@ final class Alarm {
     }
 
     var voiceId: String
+    var prompt: String?
     var generatedAudioFilename: String?
     var generatedText: String?
     var firedMode: String?
@@ -26,12 +27,14 @@ final class Alarm {
         hour: Int,
         minute: Int,
         voiceId: String = "coral",
+        prompt: String? = nil,
         isEnabled: Bool = true
     ) {
         self.id = UUID()
         self.hour = hour
         self.minute = minute
         self.voiceId = voiceId
+        self.prompt = prompt
         self.isEnabled = isEnabled
         self.stateRaw = AlarmState.draft.rawValue
         self.createdAt = Date()
