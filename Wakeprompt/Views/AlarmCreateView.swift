@@ -1,0 +1,101 @@
+import SwiftUI
+import SwiftData
+
+struct AlarmCreateView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+
+    let orchestrator: AlarmOrchestrator
+
+    @State private var selectedTime = Date()
+    @State private var isArming = false
+    @State private var armingState: AlarmState = .draft
+    @State private var errorMessage: String?
+    @State private var armedAlarm: Alarm?
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 24) {
+                DatePicker(
+                    "Alarm Time",
+                    selection: $selectedTime,
+                    displayedComponents: .hourAndMinute
+                )
+                .datePickerStyle(.wheel)
+                .labelsHidden()
+
+                GenerationStatusBanner(state: armingState, errorMessage: errorMessage)
+
+                Spacer()
+
+                Button(action: createAlarm) {
+                    Group {
+                        if isArming {
+                            HStack(spacing: 8) {
+                                ProgressView()
+                                    .tint(.white)
+                                Text(armingState.displayLabel)
+                            }
+                        } else {
+                            Text("Set Alarm")
+                        }
+                    }
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(isArming ? Color.gray : Color.blue)
+                    .foregroundStyle(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
+                .disabled(isArming)
+                .padding(.horizontal)
+            }
+            .padding()
+            .navigationTitle("New Alarm")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        if let alarm = armedAlarm, alarm.state != .armed {
+                            orchestrator.cancel(alarm, context: modelContext)
+                        }
+                        dismiss()
+                    }
+                    .disabled(isArming)
+                }
+            }
+            .interactiveDismissDisabled(isArming)
+        }
+    }
+
+    private func createAlarm() {
+        let components = Calendar.current.dateComponents([.hour, .minute], from: selectedTime)
+        guard let hour = components.hour, let minute = components.minute else { return }
+
+        let voice = UserDefaults.standard.string(forKey: "selectedVoice") ?? "coral"
+        let alarm = Alarm(hour: hour, minute: minute, voiceId: voice)
+
+        modelContext.insert(alarm)
+        armedAlarm = alarm
+        isArming = true
+        errorMessage = nil
+
+        Task {
+            await orchestrator.saveAlarm(alarm, context: modelContext)
+
+            armingState = alarm.state
+            isArming = false
+
+            if alarm.state == .armed {
+                if alarm.failureReason != nil {
+                    errorMessage = alarm.failureReason
+                    // Still armed (fallback) — allow dismiss after brief delay
+                    try? await Task.sleep(for: .seconds(1.5))
+                }
+                dismiss()
+            } else if alarm.state == .errorBlocked {
+                errorMessage = alarm.failureReason ?? "Failed to schedule alarm"
+            }
+        }
+    }
+}

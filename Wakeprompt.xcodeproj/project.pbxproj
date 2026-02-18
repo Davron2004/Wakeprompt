@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C661AED72F4510E30094064F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C661AED62F4510E30094064F /* WidgetKit.framework */; };
+		C661AED92F4510E30094064F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C661AED82F4510E30094064F /* SwiftUI.framework */; };
+		C661AEEA2F4510E30094064F /* WakepromptWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C661AED42F4510E20094064F /* WakepromptWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C661AE822F450C9E0094064F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,17 +27,61 @@
 			remoteGlobalIDString = C661AE712F450C9D0094064F;
 			remoteInfo = Wakeprompt;
 		};
+		C661AEE82F4510E30094064F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C661AE6A2F450C9D0094064F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C661AED32F4510E20094064F;
+			remoteInfo = WakepromptWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C661AEEF2F4510E30094064F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C661AEEA2F4510E30094064F /* WakepromptWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C661AE722F450C9D0094064F /* Wakeprompt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakeprompt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C661AE812F450C9E0094064F /* WakepromptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WakepromptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C661AE8B2F450C9E0094064F /* WakepromptUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WakepromptUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C661AED42F4510E20094064F /* WakepromptWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WakepromptWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C661AED62F4510E30094064F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C661AED82F4510E30094064F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C62259712F45578E005CE3C1 /* Exceptions for "Wakeprompt" folder in "Wakeprompt" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C661AE712F450C9D0094064F /* Wakeprompt */;
+		};
+		C661AEEB2F4510E30094064F /* Exceptions for "WakepromptWidget" folder in "WakepromptWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C661AED32F4510E20094064F /* WakepromptWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C661AE742F450C9D0094064F /* Wakeprompt */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C62259712F45578E005CE3C1 /* Exceptions for "Wakeprompt" folder in "Wakeprompt" target */,
+			);
 			path = Wakeprompt;
 			sourceTree = "<group>";
 		};
@@ -43,6 +93,14 @@
 		C661AE8E2F450C9E0094064F /* WakepromptUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = WakepromptUITests;
+			sourceTree = "<group>";
+		};
+		C661AEDA2F4510E30094064F /* WakepromptWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C661AEEB2F4510E30094064F /* Exceptions for "WakepromptWidget" folder in "WakepromptWidgetExtension" target */,
+			);
+			path = WakepromptWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +127,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C661AED12F4510E20094064F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C661AED92F4510E30094064F /* SwiftUI.framework in Frameworks */,
+				C661AED72F4510E30094064F /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +145,8 @@
 				C661AE742F450C9D0094064F /* Wakeprompt */,
 				C661AE842F450C9E0094064F /* WakepromptTests */,
 				C661AE8E2F450C9E0094064F /* WakepromptUITests */,
+				C661AEDA2F4510E30094064F /* WakepromptWidget */,
+				C661AED52F4510E30094064F /* Frameworks */,
 				C661AE732F450C9D0094064F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +157,18 @@
 				C661AE722F450C9D0094064F /* Wakeprompt.app */,
 				C661AE812F450C9E0094064F /* WakepromptTests.xctest */,
 				C661AE8B2F450C9E0094064F /* WakepromptUITests.xctest */,
+				C661AED42F4510E20094064F /* WakepromptWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C661AED52F4510E30094064F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C661AED62F4510E30094064F /* WidgetKit.framework */,
+				C661AED82F4510E30094064F /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,10 +181,12 @@
 				C661AE6E2F450C9D0094064F /* Sources */,
 				C661AE6F2F450C9D0094064F /* Frameworks */,
 				C661AE702F450C9D0094064F /* Resources */,
+				C661AEEF2F4510E30094064F /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C661AEE92F4510E30094064F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C661AE742F450C9D0094064F /* Wakeprompt */,
@@ -163,6 +244,28 @@
 			productReference = C661AE8B2F450C9E0094064F /* WakepromptUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		C661AED32F4510E20094064F /* WakepromptWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C661AEEC2F4510E30094064F /* Build configuration list for PBXNativeTarget "WakepromptWidgetExtension" */;
+			buildPhases = (
+				C661AED02F4510E20094064F /* Sources */,
+				C661AED12F4510E20094064F /* Frameworks */,
+				C661AED22F4510E20094064F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C661AEDA2F4510E30094064F /* WakepromptWidget */,
+			);
+			name = WakepromptWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = WakepromptWidgetExtension;
+			productReference = C661AED42F4510E20094064F /* WakepromptWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +287,9 @@
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = C661AE712F450C9D0094064F;
 					};
+					C661AED32F4510E20094064F = {
+						CreatedOnToolsVersion = 26.2;
+					};
 				};
 			};
 			buildConfigurationList = C661AE6D2F450C9D0094064F /* Build configuration list for PBXProject "Wakeprompt" */;
@@ -203,6 +309,7 @@
 				C661AE712F450C9D0094064F /* Wakeprompt */,
 				C661AE802F450C9E0094064F /* WakepromptTests */,
 				C661AE8A2F450C9E0094064F /* WakepromptUITests */,
+				C661AED32F4510E20094064F /* WakepromptWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +330,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C661AE892F450C9E0094064F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C661AED22F4510E20094064F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +367,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C661AED02F4510E20094064F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +386,11 @@
 			isa = PBXTargetDependency;
 			target = C661AE712F450C9D0094064F /* Wakeprompt */;
 			targetProxy = C661AE8C2F450C9E0094064F /* PBXContainerItemProxy */;
+		};
+		C661AEE92F4510E30094064F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C661AED32F4510E20094064F /* WakepromptWidgetExtension */;
+			targetProxy = C661AEE82F4510E30094064F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -395,11 +521,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Wakeprompt/Wakeprompt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8G2Y7545P7;
+				DEVELOPMENT_TEAM = 2B7K4YLS34;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Wakeprompt/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -410,7 +538,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.davrondjabborov.Wakeprompt;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AnyCognition.Wakeprompt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -427,11 +555,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Wakeprompt/Wakeprompt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8G2Y7545P7;
+				DEVELOPMENT_TEAM = 2B7K4YLS34;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Wakeprompt/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -442,7 +572,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.davrondjabborov.Wakeprompt;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AnyCognition.Wakeprompt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -460,7 +590,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8G2Y7545P7;
+				DEVELOPMENT_TEAM = 2B7K4YLS34;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
@@ -482,7 +612,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8G2Y7545P7;
+				DEVELOPMENT_TEAM = 2B7K4YLS34;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
@@ -503,7 +633,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8G2Y7545P7;
+				DEVELOPMENT_TEAM = 2B7K4YLS34;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.davrondjabborov.WakepromptUITests;
@@ -523,7 +653,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8G2Y7545P7;
+				DEVELOPMENT_TEAM = 2B7K4YLS34;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.davrondjabborov.WakepromptUITests;
@@ -535,6 +665,66 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Wakeprompt;
+			};
+			name = Release;
+		};
+		C661AEED2F4510E30094064F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2B7K4YLS34;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WakepromptWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WakepromptWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AnyCognition.Wakeprompt.WakepromptWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C661AEEE2F4510E30094064F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2B7K4YLS34;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WakepromptWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WakepromptWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AnyCognition.Wakeprompt.WakepromptWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -573,6 +763,15 @@
 			buildConfigurations = (
 				C661AE9C2F450C9E0094064F /* Debug */,
 				C661AE9D2F450C9E0094064F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C661AEEC2F4510E30094064F /* Build configuration list for PBXNativeTarget "WakepromptWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C661AEED2F4510E30094064F /* Debug */,
+				C661AEEE2F4510E30094064F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
