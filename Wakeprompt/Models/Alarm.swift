@@ -18,6 +18,7 @@ final class Alarm {
     var repeatDays: [Int]?
     var generatedAudioFilename: String?
     var generatedText: String?
+    var audioDurationSeconds: Double?
     var firedMode: String?
     var lastGeneratedAt: Date?
     var failureReason: String?

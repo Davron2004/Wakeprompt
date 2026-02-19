@@ -1,3 +1,4 @@
+import AVFoundation
 import Foundation
 
 enum AudioFileError: Error, LocalizedError {
@@ -55,6 +56,13 @@ final class AudioFileManager: Sendable {
         guard let dir = try? librarySoundsURL() else { return false }
         let fileURL = dir.appendingPathComponent(filename)
         return FileManager.default.fileExists(atPath: fileURL.path)
+    }
+
+    func audioDuration(filename: String) throws -> Double {
+        let dir = try librarySoundsURL()
+        let fileURL = dir.appendingPathComponent(filename)
+        let file = try AVAudioFile(forReading: fileURL)
+        return Double(file.length) / file.processingFormat.sampleRate
     }
 
     static func filename(for alarmId: UUID) -> String {

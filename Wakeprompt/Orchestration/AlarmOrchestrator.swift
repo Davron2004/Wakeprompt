@@ -106,6 +106,7 @@ final class AlarmOrchestrator {
             _ = try audioFileManager.saveAudio(data: audioData, filename: filename)
             alarm.generatedAudioFilename = filename
             alarm.lastGeneratedAt = Date()
+            alarm.audioDurationSeconds = try? audioFileManager.audioDuration(filename: filename)
 
             try await backbone.scheduleAlarm(
                 id: alarmId,
@@ -167,6 +168,7 @@ final class AlarmOrchestrator {
         alarm.state = .draft
         alarm.generatedText = nil
         alarm.generatedAudioFilename = nil
+        alarm.audioDurationSeconds = nil
         alarm.failureReason = nil
         alarm.firedMode = nil
         trySave(context)
