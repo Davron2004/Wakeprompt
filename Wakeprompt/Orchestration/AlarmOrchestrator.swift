@@ -31,6 +31,8 @@ final class AlarmOrchestrator {
     func saveAlarm(_ alarm: Alarm, context: ModelContext) async {
         let alarmId = alarm.id
 
+        guard alarm.state != .armed else { return }
+
         telemetry.log(.alarmCreated, alarmId: alarmId)
 
         // Step 1: Validate API key
