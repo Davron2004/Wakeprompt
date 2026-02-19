@@ -73,6 +73,12 @@ private struct AlarmRowView: View {
 
                 HStack(spacing: 6) {
                     stateIndicator
+                    Text(alarm.dateString)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Text("·")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     Text(alarm.state.displayLabel)
                         .font(.caption)
                         .foregroundStyle(.secondary)

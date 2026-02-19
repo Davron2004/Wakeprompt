@@ -16,8 +16,13 @@ struct AlarmDetailView: View {
         List {
             Section("Time") {
                 HStack {
-                    Text(alarm.timeString)
-                        .font(.system(.largeTitle, design: .rounded, weight: .medium))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(alarm.timeString)
+                            .font(.system(.largeTitle, design: .rounded, weight: .medium))
+                        Text(alarm.dateString)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
                     Spacer()
                 }
             }

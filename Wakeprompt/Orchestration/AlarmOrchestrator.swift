@@ -65,10 +65,7 @@ final class AlarmOrchestrator {
         trySave(context)
         telemetry.log(.textGenStarted, alarmId: alarmId)
 
-        guard let fireDate = alarm.fireDate else {
-            await armFallback(alarm, context: context, reason: "Invalid alarm time")
-            return
-        }
+        let fireDate = alarm.fireDate
 
         let wakeText: String
         do {
@@ -112,8 +109,7 @@ final class AlarmOrchestrator {
 
             try await backbone.scheduleAlarm(
                 id: alarmId,
-                hour: alarm.hour,
-                minute: alarm.minute,
+                fireDate: fireDate,
                 soundFilename: filename,
                 label: "AI Alarm",
                 mode: "primary"
@@ -141,9 +137,8 @@ final class AlarmOrchestrator {
         do {
             try await backbone.scheduleAlarm(
                 id: alarm.id,
-                hour: alarm.hour,
-                minute: alarm.minute,
-                soundFilename: nil, // nil → .default system alarm sound
+                fireDate: alarm.fireDate,
+                soundFilename: nil,
                 label: "AI Alarm (Fallback)",
                 mode: "fallback"
             )

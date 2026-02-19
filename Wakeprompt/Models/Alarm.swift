@@ -4,8 +4,7 @@ import SwiftData
 @Model
 final class Alarm {
     @Attribute(.unique) var id: UUID
-    var hour: Int
-    var minute: Int
+    var scheduledDate: Date
     var isEnabled: Bool
 
     var stateRaw: String
@@ -16,6 +15,7 @@ final class Alarm {
 
     var voiceId: String
     var prompt: String?
+    var repeatDays: [Int]?
     var generatedAudioFilename: String?
     var generatedText: String?
     var firedMode: String?
@@ -24,42 +24,50 @@ final class Alarm {
     var createdAt: Date
 
     init(
-        hour: Int,
-        minute: Int,
+        scheduledDate: Date,
         voiceId: String = "coral",
         prompt: String? = nil,
+        repeatDays: [Int]? = nil,
         isEnabled: Bool = true
     ) {
         self.id = UUID()
-        self.hour = hour
-        self.minute = minute
+        self.scheduledDate = scheduledDate
         self.voiceId = voiceId
         self.prompt = prompt
+        self.repeatDays = repeatDays
         self.isEnabled = isEnabled
         self.stateRaw = AlarmState.draft.rawValue
         self.createdAt = Date()
     }
 
-    var fireDate: Date? {
-        var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-        components.hour = hour
-        components.minute = minute
-        components.second = 0
-        guard let date = Calendar.current.date(from: components) else { return nil }
-        // If the time has already passed today, schedule for tomorrow
-        if date <= Date() {
-            return Calendar.current.date(byAdding: .day, value: 1, to: date)
-        }
-        return date
+    var hour: Int {
+        Calendar.current.component(.hour, from: scheduledDate)
+    }
+
+    var minute: Int {
+        Calendar.current.component(.minute, from: scheduledDate)
+    }
+
+    var fireDate: Date {
+        scheduledDate
     }
 
     var timeString: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
-        var components = DateComponents()
-        components.hour = hour
-        components.minute = minute
-        let date = Calendar.current.date(from: components) ?? Date()
-        return formatter.string(from: date)
+        return formatter.string(from: scheduledDate)
+    }
+
+    var dateString: String {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(scheduledDate) {
+            return "Today"
+        } else if calendar.isDateInTomorrow(scheduledDate) {
+            return "Tomorrow"
+        } else {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "E, MMM d"
+            return formatter.string(from: scheduledDate)
+        }
     }
 }

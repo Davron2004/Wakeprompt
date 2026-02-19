@@ -22,7 +22,8 @@ struct AlarmCreateView: View {
                     DatePicker(
                         "Alarm Time",
                         selection: $selectedTime,
-                        displayedComponents: .hourAndMinute
+                        in: Date()...,
+                        displayedComponents: [.date, .hourAndMinute]
                     )
                     .datePickerStyle(.wheel)
                     .labelsHidden()
@@ -94,13 +95,9 @@ struct AlarmCreateView: View {
     }
 
     private func createAlarm() {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: selectedTime)
-        guard let hour = components.hour, let minute = components.minute else { return }
-
         let trimmedPrompt = promptText.trimmingCharacters(in: .whitespacesAndNewlines)
         let alarm = Alarm(
-            hour: hour,
-            minute: minute,
+            scheduledDate: selectedTime,
             voiceId: selectedVoice,
             prompt: trimmedPrompt.isEmpty ? nil : trimmedPrompt
         )

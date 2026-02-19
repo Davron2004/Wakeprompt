@@ -31,26 +31,35 @@ Wakeprompt/                        ← project root (.xcodeproj lives here)
 
 Do NOT put `.swift` files at the project root or in `WakepromptWidget/` unless they belong to those targets.
 
+## Reference Docs
+
+- `AlarmKit_API_Reference.md` — Full AlarmKit framework API surface (schedules, AlarmManager, presentations, etc.). Read this instead of searching the web for AlarmKit docs.
+
 ---
 
 ## Coding Preferences
 
 ### General
+
 - Always read a file before editing it. Never suggest changes to code you haven't seen.
 - Ask before creating new files. Prefer editing existing ones.
 - No over-engineering. No premature abstractions. No helpers for one-time use.
 - Minimum complexity for the task at hand.
+- **No backwards compatibility concerns.** Single developer, not public yet. Feel free to rename, restructure, delete, or change APIs without migration shims or deprecation wrappers.
 
 ### Comments
+
 - No comments unless the logic is genuinely non-obvious.
 - No docstrings, no `// MARK:` sections, no explanatory comments on self-evident code.
 
 ### UI Style — Single Source of Truth
+
 All repeated UI values (colors, corner radii, spacing, typography, animation parameters) must be declared once and referenced everywhere. No magic literals scattered across views.
 
 The design system lives in `Wakeprompt/Views/Theme.swift` (create it when the first style constant is needed).
 
 Example pattern:
+
 ```swift
 // Theme.swift
 extension Color {
@@ -63,6 +72,7 @@ extension CGFloat {
 ```
 
 Then in views:
+
 ```swift
 .background(Color.appBackground)        // not Color(hex: "#1A1A1A")
 .cornerRadius(.cardCornerRadius)        // not 16

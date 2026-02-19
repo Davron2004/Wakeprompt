@@ -43,8 +43,7 @@ final class AlarmBackboneService: Sendable {
 
     func scheduleAlarm(
         id: UUID,
-        hour: Int,
-        minute: Int,
+        fireDate: Date,
         soundFilename: String?,
         label: String,
         mode: String
@@ -53,9 +52,7 @@ final class AlarmBackboneService: Sendable {
             throw AlarmBackboneError.notAuthorized
         }
 
-        let time = AlarmKit.Alarm.Schedule.Relative.Time(hour: hour, minute: minute)
-        let relative = AlarmKit.Alarm.Schedule.Relative(time: time, repeats: .never)
-        let schedule = AlarmKit.Alarm.Schedule.relative(relative)
+        let schedule = AlarmKit.Alarm.Schedule.fixed(fireDate)
 
         let alert = AlarmPresentation.Alert(
             title: LocalizedStringResource(stringLiteral: label)
