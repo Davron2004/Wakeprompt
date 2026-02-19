@@ -81,9 +81,9 @@ struct AlarmDetailView: View {
                     LabeledContent("Fallback Reason", value: reason)
                 }
 
-                if let lastGen = alarm.lastGeneratedAt {
-                    LabeledContent("Generated") {
-                        Text(lastGen, format: .dateTime.hour().minute())
+                if let duration = alarm.audioDurationSeconds {
+                    LabeledContent("Audio Duration") {
+                        Text(formatDuration(duration))
                     }
                 }
             }
@@ -134,6 +134,13 @@ struct AlarmDetailView: View {
         let trimmed = promptText.trimmingCharacters(in: .whitespacesAndNewlines)
         alarm.prompt = trimmed.isEmpty ? nil : trimmed
         regenerate()
+    }
+
+    private func formatDuration(_ seconds: Double) -> String {
+        let total = Int(seconds.rounded())
+        let mins = total / 60
+        let secs = total % 60
+        return mins > 0 ? String(format: "%d:%02d", mins, secs) : "\(secs)s"
     }
 
     private func regenerate() {
