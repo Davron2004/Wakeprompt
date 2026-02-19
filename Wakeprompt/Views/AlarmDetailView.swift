@@ -137,7 +137,7 @@ struct AlarmDetailView: View {
     }
 
     private func formatDuration(_ seconds: Double) -> String {
-        let total = Int(seconds)
+        let total = Int(seconds.rounded())
         let mins = total / 60
         let secs = total % 60
         return mins > 0 ? String(format: "%d:%02d", mins, secs) : "\(secs)s"
