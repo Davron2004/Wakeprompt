@@ -106,7 +106,12 @@ final class AlarmOrchestrator {
             _ = try audioFileManager.saveAudio(data: audioData, filename: filename)
             alarm.generatedAudioFilename = filename
             alarm.lastGeneratedAt = Date()
-            alarm.audioDurationSeconds = try? audioFileManager.audioDuration(filename: filename)
+            do {
+                alarm.audioDurationSeconds = try audioFileManager.audioDuration(filename: filename)
+            } catch {
+                telemetry.log(.ttsFailed, alarmId: alarmId, extra: ["error": "Duration read failed: \(error.localizedDescription)"])
+                alarm.audioDurationSeconds = nil
+            }
 
             try await backbone.scheduleAlarm(
                 id: alarmId,
@@ -124,6 +129,7 @@ final class AlarmOrchestrator {
             // Clean up audio file if scheduling failed
             audioFileManager.deleteAudio(filename: filename)
             alarm.generatedAudioFilename = nil
+            alarm.audioDurationSeconds = nil
             telemetry.log(.ttsFailed, alarmId: alarmId, extra: ["error": error.localizedDescription])
             await armFallback(alarm, context: context, reason: "Primary scheduling failed: \(error.localizedDescription)")
         }
